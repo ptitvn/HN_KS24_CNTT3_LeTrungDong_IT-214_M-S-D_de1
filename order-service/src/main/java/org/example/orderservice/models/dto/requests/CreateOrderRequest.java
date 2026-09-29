@@ -19,5 +19,6 @@ public record CreateOrderRequest(
 
         @NotEmpty(message = "Order must contain at least one item")
         List<@Valid CreateOrderDetailRequest> items
+
 ) {
 }

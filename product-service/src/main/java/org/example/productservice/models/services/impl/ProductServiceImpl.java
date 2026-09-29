@@ -4,6 +4,7 @@ import org.example.productservice.exceptions.ProductNotFoundException;
 import org.example.productservice.models.entities.Product;
 import org.example.productservice.models.repositories.ProductRepository;
 import org.example.productservice.models.services.ProductService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(cacheNames = "products", key = "#id", sync = true)
     @Transactional(readOnly = true)
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
+
     }
+
 }
